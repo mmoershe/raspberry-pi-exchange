@@ -16,7 +16,7 @@ def loop():
 		time.sleep(1) # Wait for 1 second
 		GPIO.output(ledPin, GPIO.LOW) # make ledPin output LOW level to turn off led
 		print ('led turned off <<<')
-		time.sleep(1) # Wait for 1 second
+		time.sleep(0.5) # Wait for 1 second
 		
 		
 def destroy():
