@@ -12,5 +12,5 @@ print ("Bereit.")
 while True: 
     if GPIO.input(buttonPin) == GPIO.LOW:
         GPIO.output(ledPin, GPIO.HIGH)
-
-
+    else: 
+        GPIO.output(ledPin, GPIO.LOW)
