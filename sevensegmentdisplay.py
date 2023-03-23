@@ -8,7 +8,7 @@ dataPin   = 15      # DS Pin of 74HC595(Pin14)
 latchPin  = 13      # ST_CP Pin of 74HC595(Pin12)
 clockPin = 11       # CH_CP Pin of 74HC595(Pin11)
 # SevenSegmentDisplay display the character "0"- "F" successively
-num = [0xfff9]
+num = [0xff01]
 
 def setup():
     GPIO.setmode(GPIO.BOARD)   # use PHYSICAL GPIO Numbering
