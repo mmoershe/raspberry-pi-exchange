@@ -10,7 +10,9 @@ CHATID: int = ''
 
 # PATHS 
 CURRENT_PATH: str = os.path.dirname(__file__)
-TELEGRAM_CREDENTIALS_PATH: str = os.path.join(CURRENT_PATH, "memory", "auth", "telegram_credentials.json")
+MEMORY_PATH: str = os.path.join(CURRENT_PATH, "memory")
+AUTH_PATH: str = os.path.join(MEMORY_PATH, "auth")
+TELEGRAM_CREDENTIALS_PATH: str = os.path.join(AUTH_PATH, "telegram_credentials.json")
 
 
 def startup() -> None: 
@@ -35,6 +37,9 @@ def startup() -> None:
 def create_telegram_credentials() -> None: 
     # this function creates the telegram_credentials.json and exits the scripts
     print("\tcreating create_telegram_scripts...")
+    
+    if not os.path.exists(AUTH_PATH): 
+        os.makedirs(AUTH_PATH)
     
     template: dict = {"TOKEN": "", "CHATID": ""}
     
