@@ -89,9 +89,19 @@ def receive_image(update: Update, context: CallbackContext) -> None:
 
     update.message.reply_text("image saved")
 
+    choices = [[InlineKeyboardButton("Object Detection", callback_data="object_detection")]]
+    
+    updater.bot.send_message(CHATID, text="I receive and saved an Image. What do you want me to do?", reply_markup=InlineKeyboardMarkup(choices))
+
 
 def receive_text(update: Update, context: CallbackContext) -> None: 
     update.message.reply_text("You sent a text")
+
+
+def queryhandler(update: Update, context: CallbackContext) -> None: 
+    query = update.callback_query.data.strip()
+    if query == "object_detection":
+        updater.bot.send_message(CHATID, "I will analyze that image.")
 
 
 
@@ -113,6 +123,8 @@ if __name__ == "__main__":
     
     dispatcher.add_handler(MessageHandler(Filters.photo, receive_image))
     dispatcher.add_handler(MessageHandler(Filters.text, receive_text))
+
+    dispatcher.add_handler(CallbackQueryHandler(queryhandler))
     
     updater.start_polling()
     updater.idle()
