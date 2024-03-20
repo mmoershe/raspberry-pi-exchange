@@ -1,7 +1,7 @@
 from telegram import Update, ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardButton, InlineKeyboardMarkup, InputMediaPhoto     
 from telegram.ext import Updater, CommandHandler, MessageHandler, ConversationHandler, InlineQueryHandler, CallbackQueryHandler, CallbackContext, Filters
 
-from sys import exit, version
+import sys
 import os
 import json 
 import subprocess
@@ -38,7 +38,7 @@ def startup() -> None:
     if TOKEN == "" or CHATID == "": 
         print("\tPlease fill out telegram_credentials.json.")
         print("\tScript will be exited.")
-        exit()
+        sys.exit()
     
 
 def create_telegram_credentials() -> None: 
@@ -55,7 +55,7 @@ def create_telegram_credentials() -> None:
     
     print("\ttelegram_credentials.json has been created. Please fill in the values to use this script!")
     print("\tScript will be exited.")
-    exit()
+    sys.exit()
     
     
 def status(update: Update, context: CallbackContext) -> None: 
