@@ -1,7 +1,7 @@
 from telegram import Update, ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardButton, InlineKeyboardMarkup, InputMediaPhoto     
 from telegram.ext import Updater, CommandHandler, MessageHandler, ConversationHandler, InlineQueryHandler, CallbackQueryHandler, CallbackContext, Filters
 
-from sys import exit
+from sys import exit, version
 import os
 import json 
 import subprocess
@@ -59,7 +59,8 @@ def create_telegram_credentials() -> None:
     
     
 def status(update: Update, context: CallbackContext) -> None: 
-    message = get_raspberry_pi_temperature()
+    message: str = get_raspberry_pi_temperature()
+    message: str = message + f"\n{sys.version = }\n{sys.platform = }"
     updater.bot.send_message(CHATID, text=message)
     
     
