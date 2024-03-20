@@ -101,10 +101,8 @@ def receive_text(update: Update, context: CallbackContext) -> None:
 def queryhandler(update: Update, context: CallbackContext) -> None: 
     query = update.callback_query.data.strip()
     if query == "object_detection":
-        updater.bot.send_message(CHATID, "I will analyze that image.")
-
-
-
+        choices = [[InlineKeyboardButton("yolov8n", callback_data="yolov8n")], [InlineKeyboardButton("yolov8x", callback_data="yolov8x")]]
+        updater.bot.send_message(CHATID, "I will analyze that image.", reply_markup=InlineKeyboardMarkup(choices))
 
 
 if __name__ == "__main__": 
