@@ -1,9 +1,11 @@
 from telegram import Update, ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardButton, InlineKeyboardMarkup, InputMediaPhoto     
 from telegram.ext import Updater, CommandHandler, MessageHandler, ConversationHandler, InlineQueryHandler, CallbackQueryHandler, CallbackContext, Filters
 
+from sys import exit
 import os
 import json 
-from sys import exit
+import subprocess
+
 
 TOKEN: str = ''
 CHATID: int = ''
@@ -13,6 +15,11 @@ CURRENT_PATH: str = os.path.dirname(__file__)
 MEMORY_PATH: str = os.path.join(CURRENT_PATH, "memory")
 AUTH_PATH: str = os.path.join(MEMORY_PATH, "auth")
 TELEGRAM_CREDENTIALS_PATH: str = os.path.join(AUTH_PATH, "telegram_credentials.json")
+
+
+def get_raspberry_pi_temperature() -> str:
+    result = subprocess.run(['vcgencmd', 'measure_temp'], capture_output=True, text=True)
+    return result.stdout.strip()
 
 
 def startup() -> None: 
@@ -52,7 +59,7 @@ def create_telegram_credentials() -> None:
     
     
 def status(update: Update, context: CallbackContext) -> None: 
-    message = "test message"
+    message = get_raspberry_pi_temperature()
     updater.bot.send_message(CHATID, text=message)
     
     
