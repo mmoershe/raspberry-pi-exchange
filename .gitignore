@@ -2,3 +2,4 @@ credentials.json
 telegram_credentials.json
 venv
 *.pt
+testing.py
