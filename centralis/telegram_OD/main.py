@@ -78,8 +78,8 @@ if __name__ == "__main__":
     print()
     startup() 
     
-    print(f"{TOKEN = }")
-    print(f"{CHATID = }")
+    print(f"{TOKEN = }\t{type(TOKEN)}")
+    print(f"{CHATID = }\t{type(CHATID)}")
     
     updater = Updater(token = TOKEN, use_context=True)
     dispatcher = updater.dispatcher
