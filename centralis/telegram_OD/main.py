@@ -18,8 +18,12 @@ TELEGRAM_CREDENTIALS_PATH: str = os.path.join(AUTH_PATH, "telegram_credentials.j
 
 
 def get_raspberry_pi_temperature() -> str:
-    result = subprocess.run(['vcgencmd', 'measure_temp'], capture_output=True, text=True)
-    return result.stdout.strip()
+    try:
+        result = subprocess.run(['vcgencmd', 'measure_temp'], capture_output=True, text=True)
+        result = result.stdout.strip()
+    except:
+        result = "[couldn't read temperature]"
+    return result
 
 
 def startup() -> None: 
