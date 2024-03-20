@@ -1,5 +1,6 @@
 credentials.json
 telegram_credentials.json
+temporary
 venv
 *.pt
 testing.py

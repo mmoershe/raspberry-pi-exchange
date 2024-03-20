@@ -14,7 +14,9 @@ CHATID: int = ''
 CURRENT_PATH: str = os.path.dirname(__file__)
 MEMORY_PATH: str = os.path.join(CURRENT_PATH, "memory")
 AUTH_PATH: str = os.path.join(MEMORY_PATH, "auth")
+TEMPORARY_PATH: str = os.path.join(MEMORY_PATH, "temporary")
 TELEGRAM_CREDENTIALS_PATH: str = os.path.join(AUTH_PATH, "telegram_credentials.json")
+TEMPORARY_IMAGE_PATH: str = os.path.join(TEMPORARY_PATH, "temporary.jpg")
 
 
 def get_raspberry_pi_temperature() -> str:
@@ -30,6 +32,9 @@ def startup() -> None:
     global TOKEN 
     global CHATID
     
+    if not os.path.exists(TEMPORARY_PATH):
+        os.makedirs(TEMPORARY_PATH)
+
     if not os.path.exists(TELEGRAM_CREDENTIALS_PATH):
         create_telegram_credentials()
         
@@ -76,6 +81,16 @@ def opening_message() -> None:
 def receive_image(update: Update, context: CallbackContext) -> None: 
     # updater.bot.send_message(CHATID, text="you sent an image")
     update.message.reply_text("you sent an image")
+
+    file_id = update.message.photo[-1].file_id
+    file_info = context.bot.get_file(file_id)
+
+    file_info.download(TEMPORARY_IMAGE_PATH)
+
+    update.message.reply_text("image saved")
+
+
+
 
 
 if __name__ == "__main__": 
