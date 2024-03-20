@@ -90,6 +90,10 @@ def receive_image(update: Update, context: CallbackContext) -> None:
     update.message.reply_text("image saved")
 
 
+def receive_text(update: Update, context: CallbackContext) -> None: 
+    update.message.reply_text("You sent a text")
+
+
 
 
 
@@ -108,6 +112,7 @@ if __name__ == "__main__":
     dispatcher.add_handler(CommandHandler("status", status))
     
     dispatcher.add_handler(MessageHandler(Filters.photo, receive_image))
+    dispatcher.add_handler(MessageHandler(Filters.text, receive_text))
     
     updater.start_polling()
     updater.idle()
