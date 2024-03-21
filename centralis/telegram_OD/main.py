@@ -79,7 +79,8 @@ def object_detection(model_name: str, min_confidence: float = 0.25) -> None:
 
     results = model(TEMPORARY_IMAGE_PATH, save=False, conf=min_confidence)
     result = results[0]    
-
+    result.save(filename=TEMPORARY_IMAGE_PATH)
+    
     names: dict = result.names
     class_detections_values: list = []
     classes_detected: dict = dict()
@@ -93,8 +94,8 @@ def object_detection(model_name: str, min_confidence: float = 0.25) -> None:
             if v == 0: 
                 continue 
             classes_detected[k] = v
-            
-    updater.bot.send_message(CHATID, f"{classes_detected = }")
+    
+    updater.bot.sendMediaGroup(CHATID, media=[InputMediaPhoto(media=open(TEMPORARY_IMAGE_PATH, "rb"), caption=str(classes_detected))])
       
         
 def status(update: Update, context: CallbackContext) -> None: 
