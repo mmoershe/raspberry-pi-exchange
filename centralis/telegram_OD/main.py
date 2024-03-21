@@ -75,10 +75,26 @@ def create_telegram_credentials() -> None:
    
 def object_detection(model_name: str, min_confidence: float = 0.25) -> None:
     # this function takes the temporary.jpg, does a object detection with the provided model and sends both the image and dictionary with all the objects detected. 
-    DEVICE: str = "cpu"
-    
     model = YOLO(f"{model_name.lower()}.pt")
-    print(f"{model.model_name = }")
+
+    results = model(TEMPORARY_IMAGE_PATH, save=False, conf=min_confidence)
+    result = results[0]    
+
+    names: dict = result.names
+    class_detections_values: list = []
+    classes_detected: dict = dict()
+    for k, v in names.items():
+        class_detections_values.append(result.boxes.cls.tolist().count(k))
+        # create dictionary of objects detected per class
+        all_classes_detected = dict(zip(names.values(), class_detections_values))
+        
+        # clean dictionary by removing 0s
+        for k, v in all_classes_detected.items(): 
+            if v == 0: 
+                continue 
+            classes_detected[k] = v
+            
+    updater.bot.send_message(CHATID, f"{classes_detected = }")
       
         
 def status(update: Update, context: CallbackContext) -> None: 
