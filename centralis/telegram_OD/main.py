@@ -73,15 +73,14 @@ def create_telegram_credentials() -> None:
     sys.exit()
    
    
-def object_detection(model: str, min_confidence: float = 0.25) -> None:
+def object_detection(model_name: str, min_confidence: float = 0.25) -> None:
     # this function takes the temporary.jpg, does a object detection with the provided model and sends both the image and dictionary with all the objects detected. 
     DEVICE: str = "cpu"
     
-    model = YOLO(f"{model}.pt")
+    model = YOLO(f"{model_name.lower()}.pt")
     print(f"{model.model_name = }")
       
-    
-    
+        
 def status(update: Update, context: CallbackContext) -> None: 
     message: str = get_raspberry_pi_temperature()
     message: str = message + f"\n{sys.version = }\n{sys.platform = }"
