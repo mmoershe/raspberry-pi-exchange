@@ -1,8 +1,11 @@
 from telegram import Update, ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardButton, InlineKeyboardMarkup, InputMediaPhoto     
 from telegram.ext import Updater, CommandHandler, MessageHandler, ConversationHandler, InlineQueryHandler, CallbackQueryHandler, CallbackContext, Filters
 
+from ultralytics import YOLO
+
 import sys
-import os
+import os 
+import time
 import json 
 import subprocess
 
@@ -70,9 +73,12 @@ def create_telegram_credentials() -> None:
     sys.exit()
    
    
-def object_detection(model: str) -> None:
+def object_detection(model: str, min_confidence: float = 0.25) -> None:
     # this function takes the temporary.jpg, does a object detection with the provided model and sends both the image and dictionary with all the objects detected. 
-    pass
+    DEVICE: str = "cpu"
+    
+    model = YOLO(model)
+    print(f"{model.model_name = }")
       
     
     
