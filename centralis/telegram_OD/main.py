@@ -96,6 +96,8 @@ def object_detection(model_name: str, min_confidence: float = 0.25) -> None:
             classes_detected[k] = v
     
     updater.bot.sendMediaGroup(CHATID, media=[InputMediaPhoto(media=open(TEMPORARY_IMAGE_PATH, "rb"), caption=str(classes_detected))])
+    
+    os.remove(TEMPORARY_IMAGE_PATH)
       
         
 def status(update: Update, context: CallbackContext) -> None: 
