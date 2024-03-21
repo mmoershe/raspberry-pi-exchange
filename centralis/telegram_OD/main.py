@@ -77,7 +77,7 @@ def object_detection(model: str, min_confidence: float = 0.25) -> None:
     # this function takes the temporary.jpg, does a object detection with the provided model and sends both the image and dictionary with all the objects detected. 
     DEVICE: str = "cpu"
     
-    model = YOLO(model)
+    model = YOLO(f"{model}.pt")
     print(f"{model.model_name = }")
       
     
