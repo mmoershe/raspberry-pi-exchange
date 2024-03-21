@@ -75,6 +75,10 @@ def create_telegram_credentials() -> None:
    
 def object_detection(model_name: str, min_confidence: float = 0.25) -> None:
     # this function takes the temporary.jpg, does a object detection with the provided model and sends both the image and dictionary with all the objects detected. 
+    updater.bot.send_message(CHATID, "Analyzing...")
+    
+    time_analyzing_start: float = time.time()
+    
     model = YOLO(f"{model_name.lower()}.pt")
 
     results = model(TEMPORARY_IMAGE_PATH, save=False, conf=min_confidence)
@@ -98,6 +102,11 @@ def object_detection(model_name: str, min_confidence: float = 0.25) -> None:
     updater.bot.sendMediaGroup(CHATID, media=[InputMediaPhoto(media=open(TEMPORARY_IMAGE_PATH, "rb"), caption=str(classes_detected))])
     
     os.remove(TEMPORARY_IMAGE_PATH)
+    
+    time_analyzing_end: float = time.time()
+    time_analyzing_elapsed: float = round(time_analyzing_end - time_analyzing_start, 2)
+    
+    updater.bot.send_message(CHATID, f"This took {time_analyzing_elapsed} seconds.")
       
         
 def status(update: Update, context: CallbackContext) -> None: 
@@ -133,14 +142,14 @@ def receive_text(update: Update, context: CallbackContext) -> None:
 
 def queryhandler(update: Update, context: CallbackContext) -> None: 
     query = update.callback_query.data.strip()
+    
     if query == "object_detection":
         choices: list = []
         for model in OBJECT_DETECTION_MODELS: 
             choices.append([InlineKeyboardButton(model, callback_data=model)])
-        updater.bot.send_message(CHATID, "I will analyze that image.", reply_markup=InlineKeyboardMarkup(choices))
+        updater.bot.send_message(CHATID, "Pick a model.", reply_markup=InlineKeyboardMarkup(choices))
     
     if query in OBJECT_DETECTION_MODELS: 
-        updater.bot.send_message(CHATID, "You chose a model")
         object_detection(query)
 
 if __name__ == "__main__": 
