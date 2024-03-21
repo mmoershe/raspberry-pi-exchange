@@ -6,9 +6,12 @@ import os
 import json 
 import subprocess
 
-
+# credentinals 
 TOKEN: str = ''
 CHATID: int = ''
+
+# models 
+OBJECT_DETECTION_MODELS: list = ["YOLOv8n", "YOLOv8s", "YOLOv8m", "YOLOv8l", "YOLOv8x"]
 
 # PATHS 
 CURRENT_PATH: str = os.path.dirname(__file__)
@@ -65,6 +68,12 @@ def create_telegram_credentials() -> None:
     print("\ttelegram_credentials.json has been created. Please fill in the values to use this script!")
     print("\tScript will be exited.")
     sys.exit()
+   
+   
+def object_detection(model: str) -> None:
+    # this function takes the temporary.jpg, does a object detection with the provided model and sends both the image and dictionary with all the objects detected. 
+    pass
+      
     
     
 def status(update: Update, context: CallbackContext) -> None: 
@@ -101,9 +110,14 @@ def receive_text(update: Update, context: CallbackContext) -> None:
 def queryhandler(update: Update, context: CallbackContext) -> None: 
     query = update.callback_query.data.strip()
     if query == "object_detection":
-        choices = [[InlineKeyboardButton("yolov8n", callback_data="yolov8n")], [InlineKeyboardButton("yolov8x", callback_data="yolov8x")]]
+        choices: list = []
+        for model in OBJECT_DETECTION_MODELS: 
+            choices.append([InlineKeyboardButton(model, callback_data=model)])
         updater.bot.send_message(CHATID, "I will analyze that image.", reply_markup=InlineKeyboardMarkup(choices))
-
+    
+    if query in OBJECT_DETECTION_MODELS: 
+        updater.bot.send_message(CHATID, "You chose a model")
+        object_detection(query)
 
 if __name__ == "__main__": 
     print()
